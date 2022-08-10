@@ -352,19 +352,24 @@ void _LCD1602_WaitForExecution()
   
   if(LCD_DataLEngth == LCD1602_DL_8bit)
   {
-    do
+    while(1)
     {
-      _LCD1602_EnableSignal();
+      LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BS0_Pos;
+      _LCD1602_Delay(1);
+      if(!(LCD_D7_Port->IDR & pinMsk)) break;
+      LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BR0_Pos;
     }
-    while(LCD_D7_Port->IDR & pinMsk);
   }
   else
   {
     while(1)
     {
       _LCD1602_EnableSignal();
+      LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BS0_Pos;
+      _LCD1602_Delay(1);
       if(!(LCD_D7_Port->IDR & pinMsk)) break;
-      _LCD1602_EnableSignal();
+      LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BR0_Pos;
+      
     }
   }
   
