@@ -329,7 +329,7 @@ void _LCD1602_EnableData(uint8_t data)
 void _LCD1602_Delay(uint16_t us)
 {
   if(!us) return;
-  uint32_t count = SYSFREQ / (us * 1000000);
+  uint32_t count = (SYSFREQ / 1000000) * us;
   for(int i = 0; i < count; i++) asm("NOP");
 }
 
