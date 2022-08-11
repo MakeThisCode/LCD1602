@@ -356,8 +356,9 @@ void _LCD1602_WaitForExecution()
     {
       LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BS0_Pos;
       _LCD1602_Delay(1);
-      if(!(LCD_D7_Port->IDR & pinMsk)) break;
+      res = LCD_D7_Port->IDR & pinMsk;
       LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BR0_Pos;
+      if(!res) break;
     }
   }
   else
@@ -367,9 +368,9 @@ void _LCD1602_WaitForExecution()
       _LCD1602_EnableSignal();
       LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BS0_Pos;
       _LCD1602_Delay(1);
-      if(!(LCD_D7_Port->IDR & pinMsk)) break;
+      res = LCD_D7_Port->IDR & pinMsk;
       LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BR0_Pos;
-      
+      if(!res) break;
     }
   }
   
