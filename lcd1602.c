@@ -350,6 +350,8 @@ void _LCD1602_WaitForExecution()
   
   uint16_t pinMsk = PIN_MSK(LCD_D7_Pin);
   
+  uint32_t res = 0;
+  
   if(LCD_DataLEngth == LCD1602_DL_8bit)
   {
     while(1)
