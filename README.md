@@ -25,6 +25,10 @@ First you need to initialize the pins to work with the display. Use the followin
 
 In 4-bit mode, the outputs of the display module `D0-D3` must be physically pulled to the ground.
 
+***Warning!***
+
+***If you are using a 5 volt LCD, check if the microcontroller pins are 5 volt tolerant. Otherwise, use the voltage level converter.***
+
 In the header file `lcd1602.h` there is a define block where you can set your own values:
 
 ```c
