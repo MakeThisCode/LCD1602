@@ -194,18 +194,18 @@ uint8_t LCD1602_ReadAddrCounter()
   {
     LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BS0_Pos;
     _LCD1602_Delay(1);
-    addr |= (LCD_D4_Port->IDR & PIN_MSK(LCD_D4_Pin)) ? (0x1 << 0x0) : 0x0;
-    addr |= (LCD_D5_Port->IDR & PIN_MSK(LCD_D5_Pin)) ? (0x1 << 0x1) : 0x0;
-    addr |= (LCD_D6_Port->IDR & PIN_MSK(LCD_D6_Pin)) ? (0x1 << 0x2) : 0x0;
-    addr |= (LCD_D7_Port->IDR & PIN_MSK(LCD_D7_Pin)) ? (0x1 << 0x3) : 0x0;
+    addr |= (LCD_D4_Port->IDR & PIN_MSK(LCD_D4_Pin)) ? (0x1 << 0x4) : 0x0;
+    addr |= (LCD_D5_Port->IDR & PIN_MSK(LCD_D5_Pin)) ? (0x1 << 0x5) : 0x0;
+    addr |= (LCD_D6_Port->IDR & PIN_MSK(LCD_D6_Pin)) ? (0x1 << 0x6) : 0x0;
     LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BR0_Pos;
     
     _LCD1602_Delay(1);
     LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BS0_Pos;
     _LCD1602_Delay(1);
-    addr |= (LCD_D4_Port->IDR & PIN_MSK(LCD_D4_Pin)) ? (0x1 << 0x4) : 0x0;
-    addr |= (LCD_D5_Port->IDR & PIN_MSK(LCD_D5_Pin)) ? (0x1 << 0x5) : 0x0;
-    addr |= (LCD_D6_Port->IDR & PIN_MSK(LCD_D6_Pin)) ? (0x1 << 0x6) : 0x0;
+    addr |= (LCD_D4_Port->IDR & PIN_MSK(LCD_D4_Pin)) ? (0x1 << 0x0) : 0x0;
+    addr |= (LCD_D5_Port->IDR & PIN_MSK(LCD_D5_Pin)) ? (0x1 << 0x1) : 0x0;
+    addr |= (LCD_D6_Port->IDR & PIN_MSK(LCD_D6_Pin)) ? (0x1 << 0x2) : 0x0;
+    addr |= (LCD_D7_Port->IDR & PIN_MSK(LCD_D7_Pin)) ? (0x1 << 0x3) : 0x0;
     LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BR0_Pos;
   }
   
@@ -220,6 +220,10 @@ uint8_t LCD1602_ReadAddrCounter()
   _LCD1602_PinToOutputMode(LCD_D5_Port, LCD_D5_Pin);
   _LCD1602_PinToOutputMode(LCD_D6_Port, LCD_D6_Pin);
   _LCD1602_PinToOutputMode(LCD_D7_Port, LCD_D7_Pin);
+  
+  /*RS - low, RW - low*/
+  LCD_RS_Port->BSRR |= PIN_MSK(LCD_RS_Pin) << GPIO_BSRR_BR0_Pos;
+  LCD_RW_Port->BSRR |= PIN_MSK(LCD_RW_Pin) << GPIO_BSRR_BR0_Pos;
   
   return addr;
 }
@@ -262,19 +266,19 @@ uint8_t LCD1602_ReadRamData()
   {
     LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BS0_Pos;
     _LCD1602_Delay(1);
-    addr |= (LCD_D4_Port->IDR & PIN_MSK(LCD_D4_Pin)) ? (0x1 << 0x0) : 0x0;
-    addr |= (LCD_D5_Port->IDR & PIN_MSK(LCD_D5_Pin)) ? (0x1 << 0x1) : 0x0;
-    addr |= (LCD_D6_Port->IDR & PIN_MSK(LCD_D6_Pin)) ? (0x1 << 0x2) : 0x0;
-    addr |= (LCD_D7_Port->IDR & PIN_MSK(LCD_D7_Pin)) ? (0x1 << 0x3) : 0x0;
+    addr |= (LCD_D4_Port->IDR & PIN_MSK(LCD_D4_Pin)) ? (0x1 << 0x4) : 0x0;
+    addr |= (LCD_D5_Port->IDR & PIN_MSK(LCD_D5_Pin)) ? (0x1 << 0x5) : 0x0;
+    addr |= (LCD_D6_Port->IDR & PIN_MSK(LCD_D6_Pin)) ? (0x1 << 0x6) : 0x0;
+    addr |= (LCD_D7_Port->IDR & PIN_MSK(LCD_D7_Pin)) ? (0x1 << 0x7) : 0x0;
     LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BR0_Pos;
     
     _LCD1602_Delay(1);
     LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BS0_Pos;
     _LCD1602_Delay(1);
-    addr |= (LCD_D4_Port->IDR & PIN_MSK(LCD_D4_Pin)) ? (0x1 << 0x4) : 0x0;
-    addr |= (LCD_D5_Port->IDR & PIN_MSK(LCD_D5_Pin)) ? (0x1 << 0x5) : 0x0;
-    addr |= (LCD_D6_Port->IDR & PIN_MSK(LCD_D6_Pin)) ? (0x1 << 0x6) : 0x0;
-    addr |= (LCD_D7_Port->IDR & PIN_MSK(LCD_D7_Pin)) ? (0x1 << 0x7) : 0x0;
+    addr |= (LCD_D4_Port->IDR & PIN_MSK(LCD_D4_Pin)) ? (0x1 << 0x0) : 0x0;
+    addr |= (LCD_D5_Port->IDR & PIN_MSK(LCD_D5_Pin)) ? (0x1 << 0x1) : 0x0;
+    addr |= (LCD_D6_Port->IDR & PIN_MSK(LCD_D6_Pin)) ? (0x1 << 0x2) : 0x0;
+    addr |= (LCD_D7_Port->IDR & PIN_MSK(LCD_D7_Pin)) ? (0x1 << 0x3) : 0x0;
     LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BR0_Pos;
   }
   
@@ -289,6 +293,10 @@ uint8_t LCD1602_ReadRamData()
   _LCD1602_PinToOutputMode(LCD_D5_Port, LCD_D5_Pin);
   _LCD1602_PinToOutputMode(LCD_D6_Port, LCD_D6_Pin);
   _LCD1602_PinToOutputMode(LCD_D7_Port, LCD_D7_Pin);
+  
+  /*RS - low, RW - low*/
+  LCD_RS_Port->BSRR |= PIN_MSK(LCD_RS_Pin) << GPIO_BSRR_BR0_Pos;
+  LCD_RW_Port->BSRR |= PIN_MSK(LCD_RW_Pin) << GPIO_BSRR_BR0_Pos;
   
   return addr;
 }
@@ -390,16 +398,20 @@ void _LCD1602_WaitForExecution()
   {
     while(1)
     {
-      _LCD1602_EnableSignal();
       LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BS0_Pos;
       _LCD1602_Delay(1);
       res = LCD_D7_Port->IDR & pinMsk;
       LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BR0_Pos;
+      _LCD1602_EnableSignal();
       if(!res) break;
     }
   }
   
   _LCD1602_PinToOutputMode(LCD_D7_Port, LCD_D7_Pin);
+  
+  /*RS - low, RW - low*/
+  LCD_RS_Port->BSRR |= PIN_MSK(LCD_RS_Pin) << GPIO_BSRR_BR0_Pos;
+  LCD_RW_Port->BSRR |= PIN_MSK(LCD_RW_Pin) << GPIO_BSRR_BR0_Pos;
 }
 
 void _LCD1602_PinToInputMode(GPIO_TypeDef* port,
