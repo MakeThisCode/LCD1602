@@ -48,8 +48,16 @@ void LCD1602_FunctionSet(enum LCD1602_LineNumber ln,
   
   _LCD1602_SetDataBus(data);
   _LCD1602_EnableSignal();
-  
   _LCD1602_WaitForExecution();
+  
+  if(LCD_DataLEngth == LCD1602_DL_4bit)
+  {
+    _LCD1602_SetDataBus(data);
+    _LCD1602_EnableSignal();
+    _LCD1602_SetDataBus(data << 4);
+    _LCD1602_EnableSignal();
+    _LCD1602_WaitForExecution();
+  }
 }
 
 void LCD1602_DisplayOn(enum LCD1602_CursorType ct)
@@ -157,10 +165,13 @@ uint8_t LCD1602_ReadAddrCounter()
   
   uint8_t addr = 0;
   
-  _LCD1602_PinToInputMode(LCD_D0_Port, LCD_D0_Pin);
-  _LCD1602_PinToInputMode(LCD_D1_Port, LCD_D1_Pin);
-  _LCD1602_PinToInputMode(LCD_D2_Port, LCD_D2_Pin);
-  _LCD1602_PinToInputMode(LCD_D3_Port, LCD_D3_Pin);
+  if(LCD_DataLEngth == LCD1602_DL_8bit)
+  {
+    _LCD1602_PinToInputMode(LCD_D0_Port, LCD_D0_Pin);
+    _LCD1602_PinToInputMode(LCD_D1_Port, LCD_D1_Pin);
+    _LCD1602_PinToInputMode(LCD_D2_Port, LCD_D2_Pin);
+    _LCD1602_PinToInputMode(LCD_D3_Port, LCD_D3_Pin);
+  }
   _LCD1602_PinToInputMode(LCD_D4_Port, LCD_D4_Pin);
   _LCD1602_PinToInputMode(LCD_D5_Port, LCD_D5_Pin);
   _LCD1602_PinToInputMode(LCD_D6_Port, LCD_D6_Pin);
@@ -198,10 +209,13 @@ uint8_t LCD1602_ReadAddrCounter()
     LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BR0_Pos;
   }
   
-  _LCD1602_PinToOutputMode(LCD_D0_Port, LCD_D0_Pin);
-  _LCD1602_PinToOutputMode(LCD_D1_Port, LCD_D1_Pin);
-  _LCD1602_PinToOutputMode(LCD_D2_Port, LCD_D2_Pin);
-  _LCD1602_PinToOutputMode(LCD_D3_Port, LCD_D3_Pin);
+  if(LCD_DataLEngth == LCD1602_DL_8bit)
+  {
+    _LCD1602_PinToOutputMode(LCD_D0_Port, LCD_D0_Pin);
+    _LCD1602_PinToOutputMode(LCD_D1_Port, LCD_D1_Pin);
+    _LCD1602_PinToOutputMode(LCD_D2_Port, LCD_D2_Pin);
+    _LCD1602_PinToOutputMode(LCD_D3_Port, LCD_D3_Pin);
+  }
   _LCD1602_PinToOutputMode(LCD_D4_Port, LCD_D4_Pin);
   _LCD1602_PinToOutputMode(LCD_D5_Port, LCD_D5_Pin);
   _LCD1602_PinToOutputMode(LCD_D6_Port, LCD_D6_Pin);
@@ -218,10 +232,13 @@ uint8_t LCD1602_ReadRamData()
   
   uint8_t addr = 0;
   
-  _LCD1602_PinToInputMode(LCD_D0_Port, LCD_D0_Pin);
-  _LCD1602_PinToInputMode(LCD_D1_Port, LCD_D1_Pin);
-  _LCD1602_PinToInputMode(LCD_D2_Port, LCD_D2_Pin);
-  _LCD1602_PinToInputMode(LCD_D3_Port, LCD_D3_Pin);
+  if(LCD_DataLEngth == LCD1602_DL_8bit)
+  {
+    _LCD1602_PinToInputMode(LCD_D0_Port, LCD_D0_Pin);
+    _LCD1602_PinToInputMode(LCD_D1_Port, LCD_D1_Pin);
+    _LCD1602_PinToInputMode(LCD_D2_Port, LCD_D2_Pin);
+    _LCD1602_PinToInputMode(LCD_D3_Port, LCD_D3_Pin);
+  }
   _LCD1602_PinToInputMode(LCD_D4_Port, LCD_D4_Pin);
   _LCD1602_PinToInputMode(LCD_D5_Port, LCD_D5_Pin);
   _LCD1602_PinToInputMode(LCD_D6_Port, LCD_D6_Pin);
@@ -261,10 +278,13 @@ uint8_t LCD1602_ReadRamData()
     LCD_E_Port->BSRR |= PIN_MSK(LCD_E_Pin) << GPIO_BSRR_BR0_Pos;
   }
   
-  _LCD1602_PinToOutputMode(LCD_D0_Port, LCD_D0_Pin);
-  _LCD1602_PinToOutputMode(LCD_D1_Port, LCD_D1_Pin);
-  _LCD1602_PinToOutputMode(LCD_D2_Port, LCD_D2_Pin);
-  _LCD1602_PinToOutputMode(LCD_D3_Port, LCD_D3_Pin);
+  if(LCD_DataLEngth == LCD1602_DL_8bit)
+  {
+    _LCD1602_PinToOutputMode(LCD_D0_Port, LCD_D0_Pin);
+    _LCD1602_PinToOutputMode(LCD_D1_Port, LCD_D1_Pin);
+    _LCD1602_PinToOutputMode(LCD_D2_Port, LCD_D2_Pin);
+    _LCD1602_PinToOutputMode(LCD_D3_Port, LCD_D3_Pin);
+  }
   _LCD1602_PinToOutputMode(LCD_D4_Port, LCD_D4_Pin);
   _LCD1602_PinToOutputMode(LCD_D5_Port, LCD_D5_Pin);
   _LCD1602_PinToOutputMode(LCD_D6_Port, LCD_D6_Pin);
@@ -291,14 +311,17 @@ void LCD1602_WriteString(char* str)
 /*Private functions*/
 void _LCD1602_SetDataBus(uint8_t data)
 {
-  LCD_D0_Port->BSRR |= ((data >> 0) & 0x1) ? (PIN_MSK(LCD_D0_Pin) << GPIO_BSRR_BS0_Pos) 
-    : (PIN_MSK(LCD_D0_Pin) << GPIO_BSRR_BR0_Pos);
-  LCD_D1_Port->BSRR |= ((data >> 1) & 0x1) ? (PIN_MSK(LCD_D1_Pin) << GPIO_BSRR_BS0_Pos) 
-    : (PIN_MSK(LCD_D1_Pin) << GPIO_BSRR_BR0_Pos);
-  LCD_D2_Port->BSRR |= ((data >> 2) & 0x1) ? (PIN_MSK(LCD_D2_Pin) << GPIO_BSRR_BS0_Pos) 
-    : (PIN_MSK(LCD_D2_Pin) << GPIO_BSRR_BR0_Pos);
-  LCD_D3_Port->BSRR |= ((data >> 3) & 0x1) ? (PIN_MSK(LCD_D3_Pin) << GPIO_BSRR_BS0_Pos) 
-    : (PIN_MSK(LCD_D3_Pin) << GPIO_BSRR_BR0_Pos);
+  if(LCD_DataLEngth == LCD1602_DL_8bit)
+  {
+    LCD_D0_Port->BSRR |= ((data >> 0) & 0x1) ? (PIN_MSK(LCD_D0_Pin) << GPIO_BSRR_BS0_Pos) 
+      : (PIN_MSK(LCD_D0_Pin) << GPIO_BSRR_BR0_Pos);
+    LCD_D1_Port->BSRR |= ((data >> 1) & 0x1) ? (PIN_MSK(LCD_D1_Pin) << GPIO_BSRR_BS0_Pos) 
+      : (PIN_MSK(LCD_D1_Pin) << GPIO_BSRR_BR0_Pos);
+    LCD_D2_Port->BSRR |= ((data >> 2) & 0x1) ? (PIN_MSK(LCD_D2_Pin) << GPIO_BSRR_BS0_Pos) 
+      : (PIN_MSK(LCD_D2_Pin) << GPIO_BSRR_BR0_Pos);
+    LCD_D3_Port->BSRR |= ((data >> 3) & 0x1) ? (PIN_MSK(LCD_D3_Pin) << GPIO_BSRR_BS0_Pos) 
+      : (PIN_MSK(LCD_D3_Pin) << GPIO_BSRR_BR0_Pos);
+  }
   LCD_D4_Port->BSRR |= ((data >> 4) & 0x1) ? (PIN_MSK(LCD_D4_Pin) << GPIO_BSRR_BS0_Pos) 
     : (PIN_MSK(LCD_D4_Pin) << GPIO_BSRR_BR0_Pos);
   LCD_D5_Port->BSRR |= ((data >> 5) & 0x1) ? (PIN_MSK(LCD_D5_Pin) << GPIO_BSRR_BS0_Pos) 
