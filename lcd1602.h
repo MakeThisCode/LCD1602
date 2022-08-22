@@ -65,7 +65,7 @@ enum LCD1602_ShiftDir
 #define LCD_RW_Port     GPIOA
 #define LCD_RW_Pin      PIN_9
 
-#define LCD_DataLEngth  LCD1602_DL_8bit
+#define LCD_DataLength  LCD1602_DL_8bit
 
 #define SYSFREQ         84000000
 
